@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ویرایش رزرو | باشگاه تنیس حیدریان</title>
+    <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css" rel="stylesheet" type="text/css" />
+    <style>
+        :root { --primary: #2ecc71; --secondary: #2c3e50; --bg: #f4f7f6; --white: #ffffff; --danger: #e74c3c; }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Vazirmatn', Tahoma, sans-serif; background-color: var(--bg); padding: 20px; }
+        .container { max-width: 600px; margin: 40px auto; background: var(--white); padding: 30px; border-radius: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.08); }
+        .form-group { margin-bottom: 20px; }
+        label { display: block; margin-bottom: 8px; font-weight: 600; color: var(--secondary); }
+        input, select { width: 100%; padding: 12px 15px; border: 2px solid #e0e6ed; border-radius: 10px; font-family: 'Vazirmatn'; font-size: 1rem; transition: 0.3s; }
+        input:focus, select:focus { outline: none; border-color: var(--primary); }
+        .btn { width: 100%; padding: 14px; background: var(--primary); color: white; border: none; border-radius: 10px; cursor: pointer; font-size: 1.1rem; font-weight: bold; font-family: 'Vazirmatn'; margin-top: 10px; transition: 0.3s; }
+        .btn:hover { background: #27ae60; }
+        .btn-cancel { background: #95a5a6; margin-top: 10px; text-align: center; display: block; text-decoration: none; padding: 12px; color: white; border-radius: 10px; font-weight: bold; }
+        h2 { text-align: center; color: var(--secondary); margin-bottom: 25px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>✏️ ویرایش رزرو شماره {{ booking.id }}</h2>
+        <form method="POST" action="/admin/edit/{{ booking.id }}">
+            <div class="form-group"><label>نام و نام خانوادگی:</label><input type="text" name="name" value="{{ booking.customer_name }}" required></div>
+            <div class="form-group"><label>شماره تماس:</label><input type="text" name="phone" value="{{ booking.phone }}" pattern="[0-9]{11}" required></div>
+            <div class="form-group">
+                <label>جنسیت:</label>
+                <select name="gender" required>
+                    <option value="مرد" {% if booking.gender == 'مرد' %}selected{% endif %}>مرد</option>
+                    <option value="زن" {% if booking.gender == 'زن' %}selected{% endif %}>زن</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>انتخاب زمین:</label>
+                <select name="court" required>
+                    <option value="زمین شماره 1" {% if booking.court_name == 'زمین شماره 1' %}selected{% endif %}>زمین شماره 1</option>
+                    <option value="زمین شماره 2" {% if booking.court_name == 'زمین شماره 2' %}selected{% endif %}>زمین شماره 2</option>
+                    <option value="زمین شماره 3" {% if booking.court_name == 'زمین شماره 3' %}selected{% endif %}>زمین شماره 3</option>
+                    <option value="زمین بانوان" {% if booking.court_name == 'زمین بانوان' %}selected{% endif %}>زمین بانوان</option>
+                </select>
+            </div>
+            <div class="form-group"><label>تاریخ رزرو:</label><input type="text" name="date" value="{{ booking.booking_date }}" required></div>
+            <div class="form-group">
+                <label>سانس زمانی:</label>
+                <select name="time_slot" required>
+                    <option value="08:00 تا 09:00" {% if booking.time_slot == '08:00 تا 09:00' %}selected{% endif %}>08:00 تا 09:00</option>
+                    <option value="09:00 تا 10:00" {% if booking.time_slot == '09:00 تا 10:00' %}selected{% endif %}>09:00 تا 10:00</option>
+                    <option value="10:00 تا 11:00" {% if booking.time_slot == '10:00 تا 11:00' %}selected{% endif %}>10:00 تا 11:00</option>
+                    <option value="11:00 تا 12:00" {% if booking.time_slot == '11:00 تا 12:00' %}selected{% endif %}>11:00 تا 12:00</option>
+                    <option value="12:00 تا 13:00" {% if booking.time_slot == '12:00 تا 13:00' %}selected{% endif %}>12:00 تا 13:00</option>
+                    <option value="13:00 تا 14:00" {% if booking.time_slot == '13:00 تا 14:00' %}selected{% endif %}>13:00 تا 14:00</option>
+                    <option value="14:00 تا 15:00" {% if booking.time_slot == '14:00 تا 15:00' %}selected{% endif %}>14:00 تا 15:00</option>
+                    <option value="15:00 تا 16:00" {% if booking.time_slot == '15:00 تا 16:00' %}selected{% endif %}>15:00 تا 16:00</option>
+                    <option value="16:00 تا 17:00" {% if booking.time_slot == '16:00 تا 17:00' %}selected{% endif %}>16:00 تا 17:00</option>
+                    <option value="17:00 تا 18:00" {% if booking.time_slot == '17:00 تا 18:00' %}selected{% endif %}>17:00 تا 18:00</option>
+                    <option value="18:00 تا 19:00" {% if booking.time_slot == '18:00 تا 19:00' %}selected{% endif %}>18:00 تا 19:00</option>
+                    <option value="19:00 تا 20:00" {% if booking.time_slot == '19:00 تا 20:00' %}selected{% endif %}>19:00 تا 20:00</option>
+                    <option value="20:00 تا 21:00" {% if booking.time_slot == '20:00 تا 21:00' %}selected{% endif %}>20:00 تا 21:00</option>
+                    <option value="21:00 تا 22:00" {% if booking.time_slot == '21:00 تا 22:00' %}selected{% endif %}>21:00 تا 22:00</option>
+                    <option value="22:00 تا 23:00" {% if booking.time_slot == '22:00 تا 23:00' %}selected{% endif %}>22:00 تا 23:00</option>
+                    <option value="23:00 00:00" {% if booking.time_slot == '23:00 تا 00:00' %}selected{% endif %}>23:00 تا 00:00</option>
+                </select>
+            </div>
+            <button type="submit" class="btn">💾 ذخیره تغییرات</button>
+            <a href="/admin" class="btn-cancel">انصراف و بازگشت به لیست</a>
+        </form>
+    </div>
+</body>
+</html>

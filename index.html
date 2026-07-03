@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>رزرو سانس | باشگاه تنیس حیدریان</title>
+    <!-- فونت وزیرمتن -->
+    <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css" rel="stylesheet" type="text/css" />
+    <!-- استایل‌های تقویم شمسی -->
+    <link rel="stylesheet" href="https://unpkg.com/persian-datepicker@1.2.0/dist/css/persian-datepicker.min.css">
+    
+    <style>
+        :root {
+            --primary: #2ecc71;
+            --primary-dark: #27ae60;
+            --secondary: #2c3e50;
+            --bg: #f4f7f6;
+            --white: #ffffff;
+            --text: #333;
+            --danger: #e74c3c;
+            --shadow: 0 10px 30px rgba(0,0,0,0.08);
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { 
+            font-family: 'Vazirmatn', Tahoma, sans-serif; 
+            background-color: var(--bg); 
+            color: var(--text);
+            line-height: 1.6;
+        }
+        .header {
+            background: linear-gradient(135deg, var(--secondary) 0%, #1a252f 100%);
+            color: var(--white);
+            text-align: center;
+            padding: 40px 20px;
+            border-bottom: 5px solid var(--primary);
+        }
+        .header h1 { font-size: 2rem; margin-bottom: 10px; }
+        .header p { opacity: 0.8; font-size: 1.1rem; }
+        
+        .container { 
+            max-width: 600px; 
+            margin: -30px auto 40px; 
+            background: var(--white); 
+            padding: 30px; 
+            border-radius: 16px; 
+            box-shadow: var(--shadow); 
+            position: relative;
+            z-index: 10;
+        }
+        .form-group { margin-bottom: 20px; }
+        label { display: block; margin-bottom: 8px; font-weight: 600; color: var(--secondary); font-size: 0.95rem; }
+        input, select { 
+            width: 100%; 
+            padding: 12px 15px; 
+            border: 2px solid #e0e6ed; 
+            border-radius: 10px; 
+            font-family: 'Vazirmatn', sans-serif;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background-color: #fafbfc;
+        }
+        input:focus, select:focus { 
+            outline: none; 
+            border-color: var(--primary); 
+            background-color: var(--white);
+            box-shadow: 0 0 0 4px rgba(46, 204, 113, 0.1);
+        }
+        button.submit-btn { 
+            width: 100%; 
+            padding: 14px; 
+            background: linear-gradient(to right, var(--primary), var(--primary-dark)); 
+            color: var(--white); 
+            border: none; 
+            border-radius: 10px; 
+            cursor: pointer; 
+            font-size: 1.1rem; 
+            font-weight: bold;
+            font-family: 'Vazirmatn', sans-serif;
+            transition: transform 0.2s, box-shadow 0.2s;
+            margin-top: 10px;
+        }
+        button.submit-btn:hover { 
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(46, 204, 113, 0.4);
+        }
+        .flash { 
+            padding: 15px; 
+            margin-bottom: 20px; 
+            border-radius: 10px; 
+            text-align: center; 
+            font-weight: 500;
+        }
+        .flash.error { background-color: #fde8e8; color: var(--danger); border: 1px solid #fbd5d5; }
+        .flash.success { background-color: #def7ec; color: #03543f; border: 1px solid #bcf0da; }
+        
+        .admin-link { 
+            display: block; 
+            text-align: center; 
+            margin-top: 25px; 
+            color: var(--secondary); 
+            text-decoration: none; 
+            font-size: 0.9rem;
+            opacity: 0.7;
+            transition: opacity 0.3s;
+        }
+        .admin-link:hover { opacity: 1; text-decoration: underline; }
+
+        @media (max-width: 600px) {
+            .container { margin: -20px 15px 30px; padding: 20px; }
+            .header h1 { font-size: 1.5rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🎾 باشگاه تنیس حیدریان</h1>
+        <p>سامانه آنلاین رزرو سانس‌های تفریحی و آموزشی</p>
+    </div>
+
+    <div class="container">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="flash {{ category }}">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        <form method="POST" action="/">
+            <div class="form-group">
+                <label for="name">نام و نام خانوادگی</label>
+                <input type="text" id="name" name="name" placeholder="مثال: علی احمدی" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="phone">شماره تماس</label>
+                <input type="text" id="phone" name="phone" pattern="[0-9]{11}" title="شماره تماس باید دقیقاً ۱۱ رقم باشد" placeholder="مثال: 09123456789" required>
+            </div>
+
+            <div class="form-group">
+                <label for="gender">جنسیت</label>
+                <select id="gender" name="gender" required>
+                    <option value="" disabled selected>انتخاب کنید...</option>
+                    <option value="مرد">مرد</option>
+                    <option value="زن">زن</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="court">انتخاب زمین</label>
+                <select id="court" name="court" required>
+                    <option value="" disabled selected>انتخاب کنید...</option>
+                    <option value="زمین شماره 1">زمین شماره 1</option>
+                    <option value="زمین شماره 2">زمین شماره 2</option>
+                    <option value="زمین شماره 3">زمین شماره 3</option>
+                    <option value="زمین بانوان">زمین بانوان</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="date">تاریخ رزرو (شمسی)</label>
+                <input type="text" id="date" name="date" class="persian-datepicker" placeholder="برای انتخاب تاریخ کلیک کنید" required autocomplete="off">
+            </div>
+
+            <div class="form-group">
+                <label for="time_slot">سانس زمانی (یک ساعته)</label>
+                <select id="time_slot" name="time_slot" required>
+                    <option value="" disabled selected>انتخاب کنید...</option>
+                    <option value="08:00 تا 09:00">08:00 تا 09:00</option>
+                    <option value="09:00 تا 10:00">09:00 تا 10:00</option>
+                    <option value="10:00 تا 11:00">10:00 تا 11:00</option>
+                    <option value="11:00 تا 12:00">11:00 تا 12:00</option>
+                    <option value="12:00 تا 13:00">12:00 تا 13:00</option>
+                    <option value="13:00 تا 14:00">13:00 تا 14:00</option>
+                    <option value="14:00 تا 15:00">14:00 تا 15:00</option>
+                    <option value="15:00 تا 16:00">15:00 تا 16:00</option>
+                    <option value="16:00 تا 17:00">16:00 تا 17:00</option>
+                    <option value="17:00 تا 18:00">17:00 تا 18:00</option>
+                    <option value="18:00 تا 19:00">18:00 تا 19:00</option>
+                    <option value="19:00 تا 20:00">19:00 تا 20:00</option>
+                    <option value="20:00 تا 21:00">20:00 تا 21:00</option>
+                    <option value="21:00 تا 22:00">21:00 تا 22:00</option>
+                    <option value="22:00 تا 23:00">22:00 تا 23:00</option>
+                    <option value="23:00 تا 00:00">23:00 تا 00:00</option>
+                </select>
+            </div>
+
+            <button type="submit" class="submit-btn">✅ تایید و ثبت نهایی رزرو</button>
+        </form>
+
+        <a href="/admin" class="admin-link">🔐 ورود به پنل مدیریت</a>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://unpkg.com/persian-date@1.1.0/dist/persian-date.min.js"></script>
+    <script src="https://unpkg.com/persian-datepicker@1.2.0/dist/js/persian-datepicker.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $(".persian-datepicker").persianDatepicker({
+                format: 'YYYY/MM/DD', autoClose: true, calendarType: 'persian',
+                initialValue: true, initialValueType: 'persian',
+                minDate: new persianDate().valueOf(),
+                navigator: { enabled: true, scroll: { enabled: true } },
+                toolbox: { enabled: true, todayButton: { enabled: true } }
+            });
+        });
+    </script>
+</body>
+</html>
